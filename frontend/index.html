@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epicurean AI — Precision Restaurant Discovery</title>
+    <meta name="description" content="Epicurean AI uses advanced intelligence to curate personalized restaurant recommendations tailored to your exact tastes and mood.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav" id="main-nav">
+        <div class="nav-brand">Epicure</div>
+        <div class="nav-links">
+            <a href="#" id="nav-discover">Discover</a>
+            <a href="#" id="nav-recommend" class="active">Recommend</a>
+            <a href="#" id="nav-collections">Collections</a>
+        </div>
+        <div class="nav-icons">
+            <button class="icon-btn" id="btn-notifications" aria-label="Notifications">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            </button>
+            <button class="icon-btn" id="btn-bookmarks" aria-label="Saved bookmarks">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            </button>
+            <div class="profile-pic" id="profile-avatar"></div>
+        </div>
+    </nav>
+
+    <div class="app-container">
+        <!-- Sidebar Form -->
+        <aside class="sidebar panel" id="sidebar-panel">
+            <h2 class="sidebar-title">Curate Experience</h2>
+            
+            <form id="pref-form">
+                <div class="form-group">
+                    <label for="loc">Location</label>
+                    <div class="input-wrapper">
+                        <select id="loc" required>
+                            <option value="" disabled selected>Select Location</option>
+                            <option value="Banashankari">Banashankari</option>
+                            <option value="Bellandur">Bellandur</option>
+                            <option value="Indiranagar">Indiranagar</option>
+                            <option value="Koramangala">Koramangala</option>
+                            <option value="Marathahalli">Marathahalli</option>
+                            <option value="HSR">HSR</option>
+                            <option value="Jayanagar">Jayanagar</option>
+                            <option value="JP Nagar">JP Nagar</option>
+                            <option value="Whitefield">Whitefield</option>
+                            <option value="BTM">BTM</option>
+                            <option value="Bannerghatta Road">Bannerghatta Road</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="cuisine">Cuisine Preference <span style="opacity: 0.6; font-weight: 400;">(Optional)</span></label>
+                    <div class="input-wrapper">
+                        <input type="text" id="cuisine" placeholder="e.g., Italian, North Indian">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Budget Tier</label>
+                    <div class="budget-toggle" id="budget-toggle">
+                        <button type="button" class="budget-btn" data-value="low">Low</button>
+                        <button type="button" class="budget-btn active" data-value="medium">Med</button>
+                        <button type="button" class="budget-btn" data-value="high">High</button>
+                    </div>
+                    <input type="hidden" id="budget" value="medium">
+                </div>
+
+                <div class="form-group">
+                    <div class="label-row">
+                        <label for="min-rating">Minimum Rating</label>
+                        <span id="rating-val" class="rating-value">4.0</span>
+                    </div>
+                    <input type="range" id="min-rating" min="0" max="5" step="0.1" value="4.0">
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Atmosphere & Extras <span style="opacity: 0.6; font-weight: 400;">(Optional)</span></label>
+                    <div class="input-wrapper">
+                        <textarea id="notes" rows="3" placeholder="e.g. Outdoor seating, quiet ambiance..."></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary" id="btn-get-recommendations">Get Recommendations</button>
+            </form>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <header class="main-header">
+                <h1>Find Your Perfect Plate</h1>
+                <p>Precision curation tailored to your exact tastes and current mood.</p>
+                <div id="filter-chips" class="filter-chips hidden">
+                    <!-- Populated via JS -->
+                </div>
+            </header>
+            
+            <div id="alerts" class="alerts-container"></div>
+            
+            <div id="loader" class="loader hidden">
+                <div class="spinner"></div>
+                <p>Analyzing restaurants...</p>
+            </div>
+
+            <div id="global-insight" class="global-insight hidden">
+                <div class="insight-icon">✨</div>
+                <div class="insight-content">
+                    <h4>AI-POWERED INSIGHT</h4>
+                    <p id="global-insight-text">Based on your preferences, I've curated these top selections known for authentic flavors and great ambiance.</p>
+                </div>
+            </div>
+            
+            <div id="results" class="results-grid">
+                <!-- Cards will be injected here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer" id="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">Epicure</div>
+            <nav class="footer-links">
+                <a href="#" id="footer-privacy">Privacy Policy</a>
+                <a href="#" id="footer-terms">Terms of Service</a>
+                <a href="#" id="footer-api">API Access</a>
+                <a href="#" id="footer-support">Support</a>
+            </nav>
+            <div class="footer-copy">&copy; 2024 Epicure AI. Precision Dining.</div>
+        </div>
+    </footer>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
