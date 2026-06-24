@@ -1,0 +1,35 @@
+name: Sync to Hugging Face hub
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  sync-to-hub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Push backend to hub
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          # Create a clean deployment folder
+          mkdir hf_deploy
+          
+          # Copy ONLY the backend files (ignores images in frontend/Docs)
+          cp -r src Dockerfile requirements.txt hf_deploy/
+          
+          # Go to deployment folder
+          cd hf_deploy
+          
+          # Initialize a fresh git repository
+          git init
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          
+          # Commit the clean backend
+          git add .
+          git commit -m "Automated deployment from GitHub"
+          
+          # Force push to Hugging Face
+          git push --force https://VGdotcom:$HF_TOKEN@huggingface.co/spaces/VGdotcom/epicurean-backend HEAD:main
