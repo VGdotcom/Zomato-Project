@@ -13,8 +13,8 @@ def load_or_download_dataset() -> pd.DataFrame:
         return pd.read_parquet(CACHE_FILE)
     
     print(f"Downloading dataset '{DATASET_ID}' from Hugging Face...")
-    # The dataset has a 'train' split by default. Limit to 5000 rows to save memory on free tiers.
-    dataset = load_dataset(DATASET_ID, split="train[:5000]")
+    # The dataset has a 'train' split by default. 
+    dataset = load_dataset(DATASET_ID, split="train")
     df = dataset.to_pandas()
     
     # Ensure data directory exists
