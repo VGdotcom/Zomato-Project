@@ -145,10 +145,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(payload)
             });
 
-            const data = await res.json();
+            let data;
+            const textResponse = await res.text();
+            try {
+                data = JSON.parse(textResponse);
+            } catch (e) {
+                if (textResponse.includes("Your space")) {
+                    throw new Error("The AI backend service is currently unavailable or waking up. Please try again in a few moments.");
+                }
+                throw new Error("Received an invalid response from the server.");
+            }
             
             if (!res.ok) {
-                throw new Error(data.detail || 'Failed to fetch recommendations');
+                throw new Error(data?.detail || 'Failed to fetch recommendations');
             }
 
             loader.classList.add('hidden');
