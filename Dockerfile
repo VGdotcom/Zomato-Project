@@ -1,14 +1,16 @@
 FROM python:3.11-slim
 
-# Set the working directory
-WORKDIR /code
+# Create a non-root user as required by Hugging Face Spaces
+RUN useradd -m -u 1000 user
+USER user
+ENV HOME=/home/user \
+    PATH=/home/user/.local/bin:$PATH
 
-# Copy the requirements file and install dependencies
-COPY ./requirements.txt /code/requirements.txt
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+WORKDIR $HOME/app
 
-# Copy the rest of the application
-COPY . /code
+COPY --chown=user ./requirements.txt $HOME/app/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r $HOME/app/requirements.txt
 
-# Hugging Face Spaces uses port 7860 by default
+COPY --chown=user . $HOME/app
+
 CMD ["uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "7860"]
