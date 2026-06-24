@@ -22,7 +22,7 @@ __pycache__/
 bin/
 lib/
 deb/
-data/
+/data/
 .gcloud/
 
 # IDEs
