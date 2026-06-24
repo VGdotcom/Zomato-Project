@@ -27,7 +27,7 @@ jobs:
           echo "title: Epicurean Backend" >> README.md
           echo "emoji: 🍽️" >> README.md
           echo "colorFrom: red" >> README.md
-          echo "colorTo: orange" >> README.md
+          echo "colorTo: yellow" >> README.md
           echo "sdk: docker" >> README.md
           echo "app_port: 7860" >> README.md
           echo "---" >> README.md
