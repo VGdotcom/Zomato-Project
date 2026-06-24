@@ -6,12 +6,13 @@ from src.models.preferences import UserPreferences
 def build_system_prompt() -> str:
     return """You are an expert AI restaurant recommender. 
 You will be provided with the user's preferences and a shortlist of candidates in JSON format.
-Your job is to select the best restaurants from the candidates, rank them, and provide a convincing rationale for each based on the user's custom notes and preferences.
+Your job is to select the TOP 5 best restaurants from the candidates (or all of them if there are fewer than 5), rank them, and provide a convincing rationale for each based on the user's custom notes and preferences.
 CRITICAL RULES:
 1. DO NOT hallucinate or invent restaurants. You MUST ONLY recommend restaurants that are present in the `candidate_restaurants` list.
-2. Use the EXACT `name`, `cuisine`, `rating`, and `cost_for_two` provided in the candidate list.
-3. Write the rationale as a concise, punchy 2-sentence quote that specifically connects the restaurant to the user's preferences (e.g. 'Best-in-class handmade pasta. Perfectly matches your request for outdoor seating and premium ambiance.').
-4. You MUST respond with pure, valid JSON matching the schema provided."""
+2. Return EXACTLY 5 recommendations if possible.
+3. Use the EXACT `name`, `cuisine`, `rating`, and `cost_for_two` provided in the candidate list.
+4. Write the rationale as a concise, punchy 2-sentence quote that specifically connects the restaurant to the user's preferences (e.g. 'Best-in-class handmade pasta. Perfectly matches your request for outdoor seating and premium ambiance.').
+5. You MUST respond with pure, valid JSON matching the schema provided."""
 
 def build_user_prompt(prefs: UserPreferences, candidates: List[Restaurant]) -> str:
     candidate_list = []
