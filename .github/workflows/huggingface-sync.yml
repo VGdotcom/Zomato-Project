@@ -23,16 +23,14 @@ jobs:
           cd hf_deploy
           
           # Create Hugging Face Space configuration README
-          cat <<'EOF' > README.md
----
-title: Epicurean Backend
-emoji: 🍽️
-colorFrom: red
-colorTo: orange
-sdk: docker
-app_port: 7860
----
-EOF
+          echo "---" > README.md
+          echo "title: Epicurean Backend" >> README.md
+          echo "emoji: 🍽️" >> README.md
+          echo "colorFrom: red" >> README.md
+          echo "colorTo: orange" >> README.md
+          echo "sdk: docker" >> README.md
+          echo "app_port: 7860" >> README.md
+          echo "---" >> README.md
           
           # Initialize a fresh git repository
           git init
